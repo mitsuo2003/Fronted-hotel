@@ -2,7 +2,8 @@
 
 A responsive, modern frontend for the Hotel Management System with full CRUD operations.
 
-# Frontend Deploy URL= 
+### Frontend Deploy URL= https://mitsuo2003.github.io/Fronted-hotel/
+### Backend URL＝ https://hotel-management-1-2exf.onrender.com/
 
 ## Features
 
@@ -28,7 +29,7 @@ A responsive, modern frontend for the Hotel Management System with full CRUD ope
 
 Update the API endpoint in `script.js` (line 2-3):
 ```javascript
-const API_BASE_URL = 'https//hotel-management-1-2exf.onrender.com/api'; 
+const API_BASE_URL = 'https://hotel-management-1-2exf.onrender.com/api'; 
 const BACKEND_URL = 'https://hotel-management-1-2exf.onrender.com';      
 
 ## API Endpoints Used
