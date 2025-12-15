@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏨 LuxStay Hotel Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-hotel"></i>
+                </div>
+                <h1>LuxStay</h1>
+                <p class="logo-subtitle">Hotel Management</p>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <h3 class="nav-section-title">MAIN</h3>
+                <a href="#dashboard" class="nav-item active" data-section="dashboard">
+                    <div class="nav-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <span class="nav-text">Dashboard</span>
+                    <div class="nav-indicator"></div>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3 class="nav-section-title">MANAGEMENT</h3>
+                <a href="#rooms" class="nav-item" data-section="rooms">
+                    <div class="nav-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <span class="nav-text">Rooms</span>
+                </a>
+                <a href="#guests" class="nav-item" data-section="guests">
+                    <div class="nav-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <span class="nav-text">Guests</span>
+                </a>
+                <a href="#bookings" class="nav-item" data-section="bookings">
+                    <div class="nav-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <span class="nav-text">Bookings</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3 class="nav-section-title">QUICK ACTIONS</h3>
+                <button class="nav-action-btn" data-section="rooms">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>New Room</span>
+                </button>
+                <button class="nav-action-btn" data-section="guests">
+                    <i class="fas fa-user-plus"></i>
+                    <span>New Guest</span>
+                </button>
+                <button class="nav-action-btn" data-section="bookings">
+                    <i class="fas fa-calendar-plus"></i>
+                    <span>New Booking</span>
+                </button>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="api-status-widget">
+                    <div class="api-status-indicator connected">
+                        <i class="fas fa-circle"></i>
+                    </div>
+                    <div class="api-status-info">
+                        <span class="api-status-label">API Status</span>
+                        <span class="api-status-text">Connected</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <div class="welcome-message">
+                    <h2 id="greeting">Good Morning</h2>
+                    <p>Manage your hotel operations efficiently</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <button class="header-btn" id="refreshData">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Refresh</span>
+                    </button>
+                    <div class="date-display">
+                        <i class="far fa-calendar"></i>
+                        <span id="currentDate">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <!-- Stats Overview -->
+                <div class="stats-overview">
+                    <div class="section-title">
+                        <h3><i class="fas fa-chart-line"></i> Overview</h3>
+                        <p>Quick glance at your hotel performance</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card animate__animated animate__fadeInUp">
+                            <div class="stat-card-header">
+                                <div class="stat-icon rooms">
+                                    <i class="fas fa-bed"></i>
+                                </div>
+                                <div class="stat-trend positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>12%</span>
+                                </div>
+                            </div>
+                            <div class="stat-card-body">
+                                <h3 id="roomsCount">0</h3>
+                                <p>Total Rooms</p>
+                            </div>
+                            <div class="stat-card-footer">
+                                <span class="stat-detail"><i class="fas fa-check-circle"></i> 5 Available</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+                            <div class="stat-card-header">
+                                <div class="stat-icon guests">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-trend positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>8%</span>
+                                </div>
+                            </div>
+                            <div class="stat-card-body">
+                                <h3 id="guestsCount">0</h3>
+                                <p>Active Guests</p>
+                            </div>
+                            <div class="stat-card-footer">
+                                <span class="stat-detail"><i class="fas fa-star"></i> 15 VIP Guests</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+                            <div class="stat-card-header">
+                                <div class="stat-icon bookings">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="stat-trend positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>24%</span>
+                                </div>
+                            </div>
+                            <div class="stat-card-body">
+                                <h3 id="bookingsCount">0</h3>
+                                <p>Active Bookings</p>
+                            </div>
+                            <div class="stat-card-footer">
+                                <span class="stat-detail"><i class="fas fa-clock"></i> 3 Check-ins Today</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+                            <div class="stat-card-header">
+                                <div class="stat-icon revenue">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                                <div class="stat-trend positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>18%</span>
+                                </div>
+                            </div>
+                            <div class="stat-card-body">
+                                <h3 id="revenue">$0</h3>
+                                <p>Today's Revenue</p>
+                            </div>
+                            <div class="stat-card-footer">
+                                <span class="stat-detail"><i class="fas fa-chart-bar"></i> $12.5K Monthly</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions-section">
+                    <div class="section-title">
+                        <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                        <p>Frequently used operations</p>
+                    </div>
+                    
+                    <div class="actions-grid">
+                        <button class="action-card" data-section="rooms">
+                            <div class="action-icon add-room">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                            <h4>Add Room</h4>
+                            <p>Register new room</p>
+                            <div class="action-hint">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </button>
+
+                        <button class="action-card" data-section="guests">
+                            <div class="action-icon add-guest">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <h4>Add Guest</h4>
+                            <p>Register new guest</p>
+                            <div class="action-hint">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </button>
+
+                        <button class="action-card" data-section="bookings">
+                            <div class="action-icon add-booking">
+                                <i class="fas fa-calendar-plus"></i>
+                            </div>
+                            <h4>New Booking</h4>
+                            <p>Create reservation</p>
+                            <div class="action-hint">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </button>
+
+                        <button class="action-card" id="checkInAction">
+                            <div class="action-icon check-in">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </div>
+                            <h4>Check-in</h4>
+                            <p>Guest arrival</p>
+                            <div class="action-hint">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rooms Section -->
+            <section id="rooms" class="content-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h3><i class="fas fa-bed"></i> Room Management</h3>
+                        <p>Manage room inventory and status</p>
+                    </div>
+                    <button class="btn-primary" id="showRoomForm">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Room</span>
+                    </button>
+                </div>
+
+                <!-- Room Form -->
+                <div class="card form-card" id="roomFormContainer" style="display: none;">
+                    <div class="form-header">
+                        <h4><i class="fas fa-bed"></i> <span id="roomFormTitle">Add New Room</span></h4>
+                        <button class="form-close" id="cancelRoomForm">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <form id="roomForm" class="modern-form">
+                        <input type="hidden" id="roomId">
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="roomNumber">
+                                    <i class="fas fa-hashtag"></i>
+                                    Room Number
+                                </label>
+                                <input type="number" id="roomNumber" class="form-input" placeholder="101" required>
+                                <div class="form-error" id="roomNumberError"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="roomType">
+                                    <i class="fas fa-list"></i>
+                                    Room Type
+                                </label>
+                                <select id="roomType" class="form-select" required>
+                                    <option value="">Select Type</option>
+                                    <option value="single">Single Room</option>
+                                    <option value="double">Double Room</option>
+                                    <option value="deluxe">Deluxe Suite</option>
+                                    <option value="suite">Executive Suite</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="roomPrice">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    Price per Night
+                                </label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    <input type="number" id="roomPrice" class="form-input" placeholder="0.00" step="0.01" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="roomStatus">
+                                    <i class="fas fa-info-circle"></i>
+                                    Status
+                                </label>
+                                <select id="roomStatus" class="form-select" required>
+                                    <option value="available">Available</option>
+                                    <option value="occupied">Occupied</option>
+                                    <option value="maintenance">Maintenance</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-save"></i>
+                                <span id="roomSubmitText">Save Room</span>
+                            </button>
+                            <button type="button" class="btn-secondary" id="cancelRoomFormBtn">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Rooms Table -->
+                <div class="card table-card">
+                    <div class="table-header">
+                        <div class="search-container">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchRooms" class="search-input" placeholder="Search rooms...">
+                        </div>
+                        <div class="table-actions">
+                            <button class="table-action-btn" id="filterAvailable">
+                                <i class="fas fa-filter"></i>
+                                Available
+                            </button>
+                            <button class="table-action-btn" id="exportRooms">
+                                <i class="fas fa-download"></i>
+                                Export
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table id="roomsTable">
+                            <thead>
+                                <tr>
+                                    <th>Room #</th>
+                                    <th>Type</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="roomsTableBody">
+                                <tr>
+                                    <td colspan="5" class="loading-row">
+                                        <div class="loading-spinner">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                            <span>Loading rooms...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-footer">
+                        <div class="table-summary">
+                            <span id="roomsSummary">Showing 0 rooms</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Guests Section -->
+            <section id="guests" class="content-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h3><i class="fas fa-users"></i> Guest Management</h3>
+                        <p>Manage guest information and preferences</p>
+                    </div>
+                    <button class="btn-primary" id="showGuestForm">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Add Guest</span>
+                    </button>
+                </div>
+
+                <!-- Guest Form -->
+                <div class="card form-card" id="guestFormContainer" style="display: none;">
+                    <div class="form-header">
+                        <h4><i class="fas fa-user"></i> <span id="guestFormTitle">Add New Guest</span></h4>
+                        <button class="form-close" id="cancelGuestForm">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <form id="guestForm" class="modern-form">
+                        <input type="hidden" id="guestId">
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="guestName">
+                                    <i class="fas fa-user"></i>
+                                    Full Name
+                                </label>
+                                <input type="text" id="guestName" class="form-input" placeholder="John Smith" required>
+                                <div class="form-error" id="guestNameError"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="guestEmail">
+                                    <i class="fas fa-envelope"></i>
+                                    Email Address
+                                </label>
+                                <input type="email" id="guestEmail" class="form-input" placeholder="john@example.com" required>
+                                <div class="form-error" id="guestEmailError"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="guestPhone">
+                                    <i class="fas fa-phone"></i>
+                                    Phone Number
+                                </label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-phone"></i>
+                                    <input type="tel" id="guestPhone" class="form-input" placeholder="+1 (123) 456-7890" required>
+                                </div>
+                                <div class="form-error" id="guestPhoneError"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-save"></i>
+                                <span id="guestSubmitText">Save Guest</span>
+                            </button>
+                            <button type="button" class="btn-secondary" id="cancelGuestFormBtn">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Guests Table -->
+                <div class="card table-card">
+                    <div class="table-header">
+                        <div class="search-container">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchGuests" class="search-input" placeholder="Search guests...">
+                        </div>
+                        <div class="table-actions">
+                            <button class="table-action-btn" id="filterVIP">
+                                <i class="fas fa-crown"></i>
+                                VIP Guests
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table id="guestsTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Bookings</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="guestsTableBody">
+                                <tr>
+                                    <td colspan="5" class="loading-row">
+                                        <div class="loading-spinner">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                            <span>Loading guests...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-footer">
+                        <div class="table-summary">
+                            <span id="guestsSummary">Showing 0 guests</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bookings Section -->
+            <section id="bookings" class="content-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h3><i class="fas fa-calendar-check"></i> Booking Management</h3>
+                        <p>Manage reservations and check-ins</p>
+                    </div>
+                    <button class="btn-primary" id="showBookingForm">
+                        <i class="fas fa-calendar-plus"></i>
+                        <span>New Booking</span>
+                    </button>
+                </div>
+
+                <!-- Booking Form -->
+                <div class="card form-card" id="bookingFormContainer" style="display: none;">
+                    <div class="form-header">
+                        <h4><i class="fas fa-calendar-alt"></i> <span id="bookingFormTitle">Create New Booking</span></h4>
+                        <button class="form-close" id="cancelBookingForm">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <form id="bookingForm" class="modern-form">
+                        <input type="hidden" id="bookingId">
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="bookingGuest">
+                                    <i class="fas fa-user"></i>
+                                    Guest
+                                </label>
+                                <select id="bookingGuest" class="form-select" required>
+                                    <option value="">Select Guest</option>
+                                    <!-- Guests will be populated here -->
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bookingRoom">
+                                    <i class="fas fa-bed"></i>
+                                    Room
+                                </label>
+                                <select id="bookingRoom" class="form-select" required>
+                                    <option value="">Select Room</option>
+                                    <!-- Rooms will be populated here -->
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="checkInDate">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Check-in Date
+                                </label>
+                                <div class="input-with-icon">
+                                    <i class="far fa-calendar"></i>
+                                    <input type="date" id="checkInDate" class="form-input" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="checkOutDate">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Check-out Date
+                                </label>
+                                <div class="input-with-icon">
+                                    <i class="far fa-calendar"></i>
+                                    <input type="date" id="checkOutDate" class="form-input" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bookingStatus">
+                                    <i class="fas fa-info-circle"></i>
+                                    Status
+                                </label>
+                                <select id="bookingStatus" class="form-select" required>
+                                    <option value="booked">Booked</option>
+                                    <option value="checked-in">Checked-in</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-save"></i>
+                                <span id="bookingSubmitText">Save Booking</span>
+                            </button>
+                            <button type="button" class="btn-secondary" id="cancelBookingFormBtn">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Bookings Table -->
+                <div class="card table-card">
+                    <div class="table-header">
+                        <div class="search-container">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchBookings" class="search-input" placeholder="Search bookings...">
+                        </div>
+                        <div class="table-actions">
+                            <button class="table-action-btn" id="filterToday">
+                                <i class="fas fa-calendar-day"></i>
+                                Today
+                            </button>
+                            <button class="table-action-btn" id="filterUpcoming">
+                                <i class="fas fa-calendar-week"></i>
+                                Upcoming
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table id="bookingsTable">
+                            <thead>
+                                <tr>
+                                    <th>Guest</th>
+                                    <th>Room</th>
+                                    <th>Check-in</th>
+                                    <th>Check-out</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookingsTableBody">
+                                <tr>
+                                    <td colspan="6" class="loading-row">
+                                        <div class="loading-spinner">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                            <span>Loading bookings...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-footer">
+                        <div class="table-summary">
+                            <span id="bookingsSummary">Showing 0 bookings</span>
+                        </div>
+                        <div class="table-pagination">
+                            <button class="pagination-btn" disabled>
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <span class="pagination-info">Page 1 of 1</span>
+                            <button class="pagination-btn">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>🏨 <strong>LuxStay Hotel Management System</strong> v1.0.0</p>
+                    <p class="footer-api-status">
+                        <i class="fas fa-circle" id="apiStatusIcon"></i>
+                        <span id="apiStatusText">Connecting to API...</span>
+                    </p>
+                </div>
+                <div class="footer-actions">
+                    <button class="footer-btn" id="viewDocs">
+                        <i class="fas fa-book"></i>
+                        Documentation
+                    </button>
+                    <button class="footer-btn" id="supportBtn">
+                        <i class="fas fa-question-circle"></i>
+                        Support
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Modal for Delete Confirmation -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal-content animate__animated animate__zoomIn">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="modal-title">
+                    <h3>Confirm Deletion</h3>
+                    <p id="deleteMessage">This action cannot be undone</p>
+                </div>
+                <button class="modal-close" id="closeDeleteModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this item? This will permanently remove all associated data.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelDelete">
+                    Cancel
+                </button>
+                <button class="btn-danger" id="confirmDelete">
+                    <i class="fas fa-trash"></i>
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner-large">
+                <i class="fas fa-hotel"></i>
+            </div>
+            <p>Loading hotel data...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
